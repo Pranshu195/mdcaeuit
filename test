@@ -1,0 +1,37 @@
+#! /bin/bash
+for file in  $(ls *.h) $(ls *.c)
+do
+	ci $file
+done
+
+read
+
+for file in  $(ls *.h,v) $(ls *.c,v)
+do
+	co $file
+done
+
+
+if ( make )
+then
+	echo "Make success: do you want to run the app (y/n)"
+	read resp
+	if [ $resp = 'y' ]
+	then
+		./mdcaeuit
+	else
+		echo "Never Mind"
+	fi
+fi
+echo "want to edit further (y/n)"
+read resp
+if [ $resp = 'y' ]
+then
+	for file in  $(ls *.h) $(ls *.c)
+	do
+		co -l  $file
+	done
+else
+	echo "never mind"
+fi
+
